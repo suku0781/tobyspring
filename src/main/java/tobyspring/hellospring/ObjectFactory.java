@@ -11,13 +11,13 @@ import tobyspring.hellospring.payment.PaymentService;
 public class ObjectFactory {
     @Bean
     public PaymentService paymentService() {
-        return new PaymentService(cachedExRateProvider());
+        return new PaymentService(exRateProvider());
     }
 
-    @Bean
-    public CachedExRateProvider cachedExRateProvider() {
-        return new CachedExRateProvider(exRateProvider());
-    }
+//    @Bean
+//    public CachedExRateProvider cachedExRateProvider() {
+//        return new CachedExRateProvider(exRateProvider());
+//    }
 
     @Bean
     public ExRateProvider exRateProvider() {
