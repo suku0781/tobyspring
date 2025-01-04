@@ -37,7 +37,6 @@ public class ClockTest{
 
         Assertions.assertThat(dt1).isEqualTo(dt2);
         Assertions.assertThat(dt3).isEqualTo(dt1.plusHours(1));
-
     }
 
 }
