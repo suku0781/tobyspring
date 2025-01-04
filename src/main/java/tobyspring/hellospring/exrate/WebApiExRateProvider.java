@@ -3,6 +3,7 @@ package tobyspring.hellospring.exrate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import tobyspring.hellospring.api.ApiExecutor;
+import tobyspring.hellospring.api.ErApiExRateExtractor;
 import tobyspring.hellospring.api.ExRateExtractor;
 import tobyspring.hellospring.api.SimpleApiExecutor;
 import tobyspring.hellospring.payment.ExRateProvider;
@@ -22,11 +23,7 @@ public class WebApiExRateProvider  implements ExRateProvider {
     public BigDecimal getExRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return runApiForExRate(url, new SimpleApiExecutor(), response -> {
-            ObjectMapper mapper = new ObjectMapper();
-            ExRateData data = mapper.readValue(response, ExRateData.class);
-            return data.rates().get("KRW");
-        });
+        return runApiForExRate(url, new SimpleApiExecutor(), new ErApiExRateExtractor());
 
         /*
         * 람다식으로 콜백을 만들어서 던지면 굳이 클래스를 만들지 않아도 됨.
