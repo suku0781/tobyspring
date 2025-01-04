@@ -17,19 +17,7 @@ public class WebApiExRateProvider  implements ExRateProvider {
 
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return apiTemplate.getExRate(url, uri -> {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
-
-
-            try(HttpClient client = HttpClient.newBuilder().build()){
-                return client.send(request, HttpResponse.BodyHandlers.ofString()).body();
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-        }, new ErApiExRateExtractor());
+        return apiTemplate.getExRate(url, new HttpClientApiExecutor(), new ErApiExRateExtractor());
 
         /*
         * 람다식으로 콜백을 만들어서 던지면 굳이 클래스를 만들지 않아도 됨.
