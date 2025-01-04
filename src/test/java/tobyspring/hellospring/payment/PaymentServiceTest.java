@@ -24,7 +24,7 @@ class PaymentServiceTest {
     }
     @Test
     @DisplayName("prepare 메소드가 요구사항 3개지를 잘 충족했는지 검증")// 테스트 성공 또는 실패 시 어떤 테스트가 실행되었는지 뜨는 JUnit 기능
-    void prepare() throws IOException {
+    void prepare() {
 
 
         testAmount(valueOf(500), valueOf(5_000), clock);
@@ -39,7 +39,7 @@ class PaymentServiceTest {
     }
 
     @Test
-    void validUntil() throws IOException {
+    void validUntil() {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(valueOf(1_000)), clock);
 
         Payment payment = paymentService.prepare(1L, "D", BigDecimal.TEN);
@@ -51,7 +51,7 @@ class PaymentServiceTest {
         assertThat(payment.getValidUntil()).isEqualTo(exprctedValidUntil);
     }
 
-    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) throws IOException {
+    private static void testAmount(BigDecimal exRate, BigDecimal convertedAmount, Clock clock) {
         PaymentService paymentService = new PaymentService(new ExRateProviderStub(exRate), clock);
 
         Payment payment = paymentService.prepare(1L, "D", BigDecimal.TEN);

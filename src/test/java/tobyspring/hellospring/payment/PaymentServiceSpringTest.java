@@ -24,7 +24,7 @@ class PaymentServiceSpringTest {
     @Autowired ExRateProviderStub exRateProviderStub;
     @Test
     @DisplayName("prepare 메소드가 요구사항 3개지를 잘 충족했는지 검증")// 테스트 성공 또는 실패 시 어떤 테스트가 실행되었는지 뜨는 JUnit 기능
-    void prepare() throws IOException {
+    void prepare() {
         // exRate : 1000
         Payment payment = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
@@ -40,7 +40,7 @@ class PaymentServiceSpringTest {
     }
 
     @Test
-    void validUntil() throws IOException {
+    void validUntil() {
         Payment payment = paymentService.prepare(1L, "D", BigDecimal.TEN);
 
         // valid until 이 prepare() 30분 뒤로 설정되었는지?

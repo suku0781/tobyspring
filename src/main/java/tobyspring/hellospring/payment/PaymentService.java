@@ -15,7 +15,7 @@ public class PaymentService {
         this.clock = clock;
     }
 
-    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrentAmount) throws IOException {
+    public Payment prepare(Long orderId, String currency, BigDecimal foreignCurrentAmount) {
         BigDecimal exRate = exRateProvider.getExRate(currency);
         /* 의존하고 있는 다른 오브젝트로 부터 뭔가를 요청해서 정보를 가오는 것, 핵심적인 로직 호출만해서 리턴함. 사용하는 클라이언트 쪽으로*/
 
