@@ -3,6 +3,7 @@ package tobyspring.hellospring.exrate;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import tobyspring.hellospring.api.ApiExecutor;
+import tobyspring.hellospring.api.ExRateExtractor;
 import tobyspring.hellospring.api.SimpleApiExecutor;
 import tobyspring.hellospring.payment.ExRateProvider;
 
@@ -21,7 +22,17 @@ public class WebApiExRateProvider  implements ExRateProvider {
     public BigDecimal getExRate(String currency) {
         String url = "https://open.er-api.com/v6/latest/" + currency;
 
-        return runApiForExRate(url, new SimpleApiExecutor());
+        return runApiForExRate(url, new SimpleApiExecutor(), response -> {
+            ObjectMapper mapper = new ObjectMapper();
+            ExRateData data = mapper.readValue(response, ExRateData.class);
+            return data.rates().get("KRW");
+        });
+
+        /*
+        * 람다식으로 콜백을 만들어서 던지면 굳이 클래스를 만들지 않아도 됨.
+        * 한번만 사용되어지고 말 것이라면 간단하니 람다식을 이용해서 작성할 수 있음.
+        * 다른 쪽에서도 사용되어져야한다 라고하면 클래스를 만들어두는 것이 좋다.
+        * */
     }
 
     /*
@@ -34,7 +45,7 @@ public class WebApiExRateProvider  implements ExRateProvider {
     *
     * 클라이언트, 콜백, 템플릿 세가지가 협력해서 일을 하는 구조가 됨.
     * */
-    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor) {
+    private static BigDecimal runApiForExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         String response;
         URI uri;
         try {
@@ -51,17 +62,11 @@ public class WebApiExRateProvider  implements ExRateProvider {
         }
 
         try {
-            return extractExRate(response);
+            return exRateExtractor.extract(response);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
     }
 
-    private static BigDecimal extractExRate(String response) throws JsonProcessingException {
-        ObjectMapper mapper = new ObjectMapper();
-        ExRateData data = mapper.readValue(response, ExRateData.class);
-
-        return data.rates().get("KRW");
-    }
 
 }
