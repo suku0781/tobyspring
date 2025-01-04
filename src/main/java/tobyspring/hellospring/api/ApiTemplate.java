@@ -8,6 +8,32 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class ApiTemplate {
+    private final ApiExecutor apiExecutor;
+    private final ExRateExtractor exRateExtractor;
+
+    // 디폴트 콜백
+    public ApiTemplate() {
+        this.apiExecutor = new HttpClientApiExecutor();
+        this.exRateExtractor = new ErApiExRateExtractor();
+    }
+
+    public ApiTemplate(ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
+        this.apiExecutor = apiExecutor;
+        this.exRateExtractor = exRateExtractor;
+    }
+
+    public BigDecimal getExRate(String url){
+        return this.getExRate(url, this.apiExecutor, this.exRateExtractor);
+    }
+
+    public BigDecimal getExRate(String url, ApiExecutor apiExecutor) {
+        return this.getExRate(url, apiExecutor, this.exRateExtractor);
+    }
+
+    public BigDecimal getExRate(String url, ExRateExtractor exRateExtractor) {
+        return this.getExRate(url, this.apiExecutor, exRateExtractor);
+    }
+
     /*
      * 메서드로 구분해놓은 runApiForExRate (템플릿이라 부름) 잘변하지 않는 속성을 가진 코드를 넣어놓음.
      * 변하는 속성을 가진 코드는 콜백 형태로 만들어서 템플릿에 메서드 파라미터 형태로 전달함.
@@ -18,7 +44,7 @@ public class ApiTemplate {
      *
      * 클라이언트, 콜백, 템플릿 세가지가 협력해서 일을 하는 구조가 됨.
      * */
-    public static BigDecimal getExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
+    public BigDecimal getExRate(String url, ApiExecutor apiExecutor, ExRateExtractor exRateExtractor) {
         String response;
         URI uri;
         try {
