@@ -31,7 +31,7 @@ class PaymentServiceSpringTest {
         assertThat(payment.getExRate()).isEqualByComparingTo(valueOf(1_000));
         assertThat(payment.getConvertedAmount()).isEqualByComparingTo(valueOf(10_000));
 
-        // exRate : 5000
+        // exRate : 500
         exRateProviderStub.setExRate(valueOf(500));
         Payment payment2 = paymentService.prepare(1L, "USD", BigDecimal.TEN);
 
