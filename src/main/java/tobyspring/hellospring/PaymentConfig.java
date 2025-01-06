@@ -6,10 +6,9 @@ import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 import tobyspring.hellospring.api.ApiTemplate;
 import tobyspring.hellospring.api.ErApiExRateExtractor;
-import tobyspring.hellospring.api.RestTemplateExRateProvider;
+import tobyspring.hellospring.exrate.RestTemplateExRateProvider;
 import tobyspring.hellospring.api.SimpleApiExecutor;
 import tobyspring.hellospring.payment.ExRateProvider;
-import tobyspring.hellospring.exrate.WebApiExRateProvider;
 import tobyspring.hellospring.payment.PaymentService;
 
 import java.time.Clock;
@@ -34,7 +33,8 @@ public class PaymentConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate(new JdkClientHttpRequestFactory());
-    } //new JdkClientHttpRequestFactory() 이걸 rest템플릿 전략으로 넣어주면 이때부터는 api호출할 때 httpClient기술을 이용해서 만든다.
+    }
+    //new JdkClientHttpRequestFactory() 이걸 rest템플릿 전략으로 넣어주면 이때부터는 api호출할 때 httpClient기술을 이용해서 만든다.
     @Bean
     public ExRateProvider exRateProvider() {
         return new RestTemplateExRateProvider(restTemplate());

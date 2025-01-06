@@ -1,4 +1,4 @@
-package tobyspring.hellospring.api;
+package tobyspring.hellospring.exrate;
 
 import org.springframework.web.client.RestTemplate;
 import tobyspring.hellospring.exrate.ExRateData;
