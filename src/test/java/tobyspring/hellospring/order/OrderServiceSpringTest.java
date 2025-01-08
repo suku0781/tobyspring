@@ -14,8 +14,7 @@ import java.math.BigDecimal;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = OrderConfig.class)
 public class OrderServiceSpringTest {
-    @Autowired
-    OrderService orderService;
+    @Autowired OrderService orderService;
 
     @Test
     void createOrder() {
